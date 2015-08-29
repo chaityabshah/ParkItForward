@@ -59,7 +59,7 @@ namespace Planner.Controllers
     }
 
 
-    [RoutePrefix("api/park-it-forward")]
+    [RoutePrefix("api")]
     public class ParkItForwardController : ApiController
     {
         [Route("register")]
