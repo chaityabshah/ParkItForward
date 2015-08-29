@@ -143,7 +143,7 @@ namespace Planner.Controllers
 
         private VehicleResponse GetVehicleLocation(string vin, string accessToken)
         {
-            return Call<VehicleResponse>($"account/vehicles/" + vin + "/commands/location", HttpMethod.Post, accessToken);
+            return Call<VehicleResponse>("account/vehicles/" + vin + "/commands/location", HttpMethod.Post, accessToken);
         }
 
         private VehiclesResponse GetVehicles(string accessToken)
