@@ -63,14 +63,15 @@ namespace Planner.Controllers
     public class ParkItForwardController : ApiController
     {
         [Route("register")]
-        [HttpPost]
+        [HttpGet]
         public HttpResponseMessage Register(Register form)
         {
             var accessToken = GetAuthTokenAsync();
+
             if (!string.IsNullOrEmpty(accessToken))
             {
                 //var vehiclesResponse = GetVehicles(accessToken);
-                var vehicleResponse = GetVehicle(form.VIN, accessToken);
+                var vehicleResponse = GetVehicle("1G1PJ5S95B7000009", accessToken);
                 return new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(vehicleResponse)), StatusCode = HttpStatusCode.OK };
 
             }
