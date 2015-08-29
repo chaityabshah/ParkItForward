@@ -27,6 +27,7 @@ namespace Planner.Models.Database
 {
     public interface IPlannerDbContext : IDisposable
     {
+        IDbSet<Location> Locations { get; set; } // locations
         IDbSet<User> Users { get; set; } // Users
 
         int SaveChanges();

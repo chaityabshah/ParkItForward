@@ -14,12 +14,7 @@ namespace Planner.Models
     {
         public static string Create(Register form)
         {
-            
-            
             return Json.Encode(form);
-
-
-
         }
     }
 }

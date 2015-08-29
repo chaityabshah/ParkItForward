@@ -27,6 +27,7 @@ namespace Planner.Models.Database
 {
     public class PlannerDbContext : DbContext, IPlannerDbContext
     {
+        public IDbSet<Location> Locations { get; set; } // locations
         public IDbSet<User> Users { get; set; } // Users
         
         static PlannerDbContext()
@@ -56,11 +57,13 @@ namespace Planner.Models.Database
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Configurations.Add(new LocationConfiguration());
             modelBuilder.Configurations.Add(new UserConfiguration());
         }
 
         public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
         {
+            modelBuilder.Configurations.Add(new LocationConfiguration(schema));
             modelBuilder.Configurations.Add(new UserConfiguration(schema));
             return modelBuilder;
         }

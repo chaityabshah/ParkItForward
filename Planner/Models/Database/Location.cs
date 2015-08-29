@@ -25,42 +25,17 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace Planner.Models.Database
 {
-    [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.14.2.0")]
-    public class FakePlannerDbContext : IPlannerDbContext
+    // locations
+    public class Location
     {
-        public IDbSet<Location> Locations { get; set; }
-        public IDbSet<User> Users { get; set; }
-
-        public FakePlannerDbContext()
-        {
-            Locations = new FakeDbSet<Location>();
-            Users = new FakeDbSet<User>();
-        }
-
-        public int SaveChanges()
-        {
-            return 0;
-        }
-
-        public Task<int> SaveChangesAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-        }
-        
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        
-        // Stored Procedures
+        public long Id { get; set; } // id
+        public string Vin { get; set; } // vin
+        public string Lat { get; set; } // lat
+        public string Lng { get; set; } // lng
+        public string Type { get; set; } // type
+        public string Status { get; set; } // status
+        public DateTime Created { get; set; } // created
+        public DateTime? Updated { get; set; } // updated
     }
+
 }

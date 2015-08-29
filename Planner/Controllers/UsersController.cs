@@ -11,11 +11,5 @@ namespace Planner.Controllers
         {
             return true;
         }
-
-        [System.Web.Mvc.HttpPost]
-        public string Register(Register form)
-        {
-            return Users.Create(form);
-        }
     }
 }

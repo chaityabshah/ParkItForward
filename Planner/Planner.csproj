@@ -163,6 +163,12 @@
     <Compile Include="Models\Database\IPlannerDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Database\Location.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Database\LocationConfiguration.cs">
+      <DependentUpon>Database.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Database\PlannerDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
@@ -172,15 +178,9 @@
     <Compile Include="Models\Database\UserConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DTO\XEdit.cs" />
-    <Compile Include="Models\DTO\Login.cs" />
+    <Compile Include="Models\DTO\Request.cs" />
     <Compile Include="Models\DTO\Register.cs" />
-    <Compile Include="Models\DTO\TaskDto.cs" />
-    <Compile Include="Models\DTO\ClassesForm.cs" />
-    <Compile Include="Models\DTO\CalEvent.cs" />
-    <Compile Include="Models\DTO\EventForm.cs" />
-    <Compile Include="Models\DTO\UserForm.cs" />
-    <Compile Include="Models\DTO\TaskForm.cs" />
+    <Compile Include="Models\DTO\Vehicle.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
