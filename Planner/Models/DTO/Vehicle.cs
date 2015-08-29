@@ -19,7 +19,7 @@ namespace Planner.Models.DTO
     public class Vehicle
     {
         [JsonProperty(PropertyName = "vin")]
-        public int Vin { get; set; }
+        public string Vin { get; set; }
 
         [JsonProperty(PropertyName = "make")]
         public string Make { get; set; }

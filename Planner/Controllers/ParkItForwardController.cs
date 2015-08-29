@@ -72,11 +72,33 @@ namespace Planner.Controllers
             {
                 //var vehiclesResponse = GetVehicles(accessToken);
                 var vehicleResponse = GetVehicle("1G1PJ5S95B7000009", accessToken);
-                return new HttpResponseMessage { Content = new StringContent(JsonConvert.SerializeObject(vehicleResponse)), StatusCode = HttpStatusCode.OK };
 
+                using (var dbContext = new PlannerDbContext())
+                {
+                    dbContext.Users.Add(new User
+                    {
+                        Vin = "sample Vin",
+                        Plate = "sample plate",
+                        Status = "ACTIVE",
+                        Created = DateTime.UtcNow
+                    });
+                    dbContext.SaveChanges();
+
+                    return new HttpResponseMessage
+                    {
+                        Content = new StringContent(JsonConvert.SerializeObject(vehicleResponse)),
+                        StatusCode = HttpStatusCode.OK
+                    };
+
+                }
             }
-            return new HttpResponseMessage { Content = new StringContent("Failure"), StatusCode = HttpStatusCode.BadRequest };
-        }
+            return new HttpResponseMessage
+                {
+                    Content = new StringContent("Failure"),
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+        
 
         [Route("vehicles")]
         [HttpGet]
