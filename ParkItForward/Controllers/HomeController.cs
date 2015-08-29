@@ -10,6 +10,7 @@ namespace ParkItForward.Controllers
     {
         public ActionResult Index()
         {
+            var hello = "hello";
             return View();
         }
 
