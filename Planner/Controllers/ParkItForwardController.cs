@@ -138,12 +138,12 @@ namespace Planner.Controllers
 
         private VehicleResponse GetVehicle(string vin, string accessToken)
         {
-            return Call<VehicleResponse>("account/vehicles/{vin}", HttpMethod.Get, accessToken);
+            return Call<VehicleResponse>(string.Format("account/vehicles/{0}", vin), HttpMethod.Get, accessToken);
         }
 
         private VehicleResponse GetVehicleLocation(string vin, string accessToken)
         {
-            return Call<VehicleResponse>("account/vehicles/{vin}/commands/location", HttpMethod.Post, accessToken);
+            return Call<VehicleResponse>($"account/vehicles/" + vin + "/commands/location", HttpMethod.Post, accessToken);
         }
 
         private VehiclesResponse GetVehicles(string accessToken)
@@ -182,7 +182,7 @@ namespace Planner.Controllers
             var clientId = "l7xxb1ace3b4c4454f1a9ec7a30b69c850f6"; // change it to your client id
             var clientSecret = "5d41035a5619413d8cebe6eb1c4bd9eb"; // change it to your client secret
 
-            var auth = $"{clientId}:{clientSecret}";
+            var auth = clientId+":" + clientSecret;
 
             using (var client = new HttpClient())
             {
