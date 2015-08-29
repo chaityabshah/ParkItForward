@@ -140,13 +140,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\DocsController.cs" />
-    <Compile Include="Controllers\ElmahController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\EventsController.cs" />
-    <Compile Include="Controllers\ClassesController.cs" />
-    <Compile Include="Controllers\NodesController.cs" />
-    <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Controllers\ParkItForwardController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Crypt.cs" />
     <Compile Include="Global.asax.cs">
@@ -154,21 +149,9 @@
     </Compile>
     <Compile Include="Helpers.cs" />
     <Compile Include="Helpers\MarkdownHelper.cs" />
-    <Compile Include="Models\Database\Class.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\ClassConfiguration.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Database\Database.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\Event.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\EventConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\FakeDbSet.cs">
@@ -180,49 +163,13 @@
     <Compile Include="Models\Database\IPlannerDbContext.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Database\Node.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\NodeConfiguration.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Database\PlannerDbContext.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\Role.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\RoleConfiguration.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\Task.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\TaskConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\User.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Database\UserConfiguration.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\UserPassword.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\UserPasswordConfiguration.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\UserRole.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\UserRoleConfiguration.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\UserToken.cs">
-      <DependentUpon>Database.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Database\UserTokenConfiguration.cs">
       <DependentUpon>Database.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DTO\XEdit.cs" />
@@ -234,10 +181,6 @@
     <Compile Include="Models\DTO\EventForm.cs" />
     <Compile Include="Models\DTO\UserForm.cs" />
     <Compile Include="Models\DTO\TaskForm.cs" />
-    <Compile Include="Models\Classes.cs" />
-    <Compile Include="Models\Events.cs" />
-    <Compile Include="Models\Tasks.cs" />
-    <Compile Include="Models\Nodes.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

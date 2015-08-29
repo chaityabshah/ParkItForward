@@ -21,26 +21,5 @@ namespace Planner.Controllers
             ViewBag.IsLoggedIn = false;
             return View();
         }
-
-        public ActionResult Secured()
-        {
-            var tasks = Tasks.GetAll((long) Session["userId"]);
-            return View(tasks);
-        }
-
-        public ActionResult About()
-        {
-            return View();
-        }
-
-        public ActionResult Features()
-        {
-            return View();
-        }
-
-        public ActionResult Register()
-        {
-            return View();
-        }
     }
 }

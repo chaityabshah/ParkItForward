@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
@@ -32,18 +31,15 @@ namespace Planner.Models.Database
         public UserConfiguration(string schema = "dbo")
         {
             ToTable(schema + ".Users");
-            HasKey(x => x.Id);
+            HasKey(x => new { x.Id, x.Vin, x.Plate, x.Status, x.Created });
 
-            Property(x => x.Id)
-                .HasColumnName("id")
-                .IsRequired()
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.Uuid).HasColumnName("uuid").IsRequired();
-            Property(x => x.EmailAddress).HasColumnName("email_address").IsRequired().HasMaxLength(128);
-            Property(x => x.Offset).HasColumnName("offset").IsRequired().HasMaxLength(8);
-            Property(x => x.Status).HasColumnName("status").IsRequired().HasMaxLength(32);
+            Property(x => x.Id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.Vin).HasColumnName("vin").IsRequired().HasMaxLength(32);
+            Property(x => x.Plate).HasColumnName("plate").IsRequired().HasMaxLength(16);
+            Property(x => x.Status).HasColumnName("status").IsRequired().HasMaxLength(16);
             Property(x => x.Created).HasColumnName("created").IsRequired();
             Property(x => x.Updated).HasColumnName("updated").IsOptional();
         }
     }
+
 }

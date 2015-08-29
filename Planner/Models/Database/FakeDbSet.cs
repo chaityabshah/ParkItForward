@@ -5,12 +5,10 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
 using System.CodeDom.Compiler;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -27,7 +25,7 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace Planner.Models.Database
 {
-    [GeneratedCode("EF.Reverse.POCO.Generator", "2.14.2.0")]
+    [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.14.2.0")]
     public class FakeDbSet<T> : IDbSet<T> where T : class
     {
         private readonly HashSet<T> _data;
@@ -60,6 +58,11 @@ namespace Planner.Models.Database
             return item;
         }
 
+        public void Detach(T item)
+        {
+            _data.Remove(item);
+        }
+
         Type IQueryable.ElementType
         {
             get { return _data.AsQueryable().ElementType; }
@@ -75,7 +78,7 @@ namespace Planner.Models.Database
             get { return _data.AsQueryable().Provider; }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return _data.GetEnumerator();
         }
@@ -92,17 +95,15 @@ namespace Planner.Models.Database
 
         public ObservableCollection<T> Local
         {
-            get { return new ObservableCollection<T>(_data); }
+            get
+            {
+                return new ObservableCollection<T>(_data);
+            }
         }
 
         public TDerivedEntity Create<TDerivedEntity>() where TDerivedEntity : class, T
         {
             return Activator.CreateInstance<TDerivedEntity>();
-        }
-
-        public void Detach(T item)
-        {
-            _data.Remove(item);
         }
     }
 }

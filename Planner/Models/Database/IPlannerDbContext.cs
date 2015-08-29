@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
@@ -28,17 +27,13 @@ namespace Planner.Models.Database
 {
     public interface IPlannerDbContext : IDisposable
     {
-        IDbSet<Class> Classes { get; set; } // Classes
-        IDbSet<Event> Events { get; set; } // Events
-        IDbSet<Node> Nodes { get; set; } // Nodes
-        IDbSet<Role> Roles { get; set; } // Roles
-        IDbSet<Task> Tasks { get; set; } // Tasks
         IDbSet<User> Users { get; set; } // Users
-        IDbSet<UserPassword> UserPasswords { get; set; } // UserPasswords
-        IDbSet<UserRole> UserRoles { get; set; } // UserRoles
-        IDbSet<UserToken> UserTokens { get; set; } // UserTokens
+
         int SaveChanges();
         Task<int> SaveChangesAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        
+        // Stored Procedures
     }
+
 }

@@ -5,12 +5,8 @@ namespace Planner.Models.DTO
     public class Register
     {
         [Required]
-        [StringLength(128)]
-        public string EmailAddress { get; set; }
-
+        public string VIN { get; set; }
         [Required]
-        public string Password { get; set; }
-
-        public string Offset { get; set; }
+        public string Plate { get; set; }
     }
 }

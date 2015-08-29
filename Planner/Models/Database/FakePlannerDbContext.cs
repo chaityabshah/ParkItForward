@@ -5,7 +5,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
@@ -26,31 +25,15 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace Planner.Models.Database
 {
-    [GeneratedCode("EF.Reverse.POCO.Generator", "2.14.2.0")]
+    [GeneratedCodeAttribute("EF.Reverse.POCO.Generator", "2.14.2.0")]
     public class FakePlannerDbContext : IPlannerDbContext
     {
+        public IDbSet<User> Users { get; set; }
+
         public FakePlannerDbContext()
         {
-            Classes = new FakeDbSet<Class>();
-            Events = new FakeDbSet<Event>();
-            Nodes = new FakeDbSet<Node>();
-            Roles = new FakeDbSet<Role>();
-            Tasks = new FakeDbSet<Task>();
             Users = new FakeDbSet<User>();
-            UserPasswords = new FakeDbSet<UserPassword>();
-            UserRoles = new FakeDbSet<UserRole>();
-            UserTokens = new FakeDbSet<UserToken>();
         }
-
-        public IDbSet<Class> Classes { get; set; }
-        public IDbSet<Event> Events { get; set; }
-        public IDbSet<Node> Nodes { get; set; }
-        public IDbSet<Role> Roles { get; set; }
-        public IDbSet<Task> Tasks { get; set; }
-        public IDbSet<User> Users { get; set; }
-        public IDbSet<UserPassword> UserPasswords { get; set; }
-        public IDbSet<UserRole> UserRoles { get; set; }
-        public IDbSet<UserToken> UserTokens { get; set; }
 
         public int SaveChanges()
         {
@@ -67,13 +50,15 @@ namespace Planner.Models.Database
             throw new NotImplementedException();
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+        }
+        
         public void Dispose()
         {
             Dispose(true);
         }
-
-        protected virtual void Dispose(bool disposing)
-        {
-        }
+        
+        // Stored Procedures
     }
 }

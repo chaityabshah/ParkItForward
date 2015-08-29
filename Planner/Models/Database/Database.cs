@@ -1,11 +1,13 @@
-﻿// This file was automatically generated.
+﻿
+
+// This file was automatically generated.
 // Do not make changes directly to this file - edit the template instead.
 // 
 // The following connection settings were used to generate this file
 // 
 //     Configuration file:     "Planner\Web.config"
 //     Connection String Name: "Planner"
-//     Connection String:      "Data Source=184.168.194.77; Initial Catalog=PlannerAlpha; User Id=PlannerAlphaUser;Password=y_Cus890"
+//     Connection String:      "Data Source=184.168.194.77; Initial Catalog=GM_ParkItForward; User Id=ParkItFwdUser;Password=qHjb8~11"
 
 // Database Edition: Web Edition (64-bit)
 // Database Engine Edition: Standard
@@ -17,7 +19,6 @@
 // ReSharper disable PartialMethodWithSinglePart
 // ReSharper disable RedundantNameQualifier
 // TargetFrameworkVersion = 4.51
-
 #pragma warning disable 1591    //  Ignore "Missing XML Comment" warning
 
 using System;
@@ -39,3 +40,4 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 namespace Planner.Models.Database
 {
 }
+
