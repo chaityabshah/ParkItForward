@@ -1,0 +1,8 @@
+.vs
+Planner.v12.suo
+packages/
+Planner/Planner.csproj.user
+Planner/obj/
+Planner/bin/
+Planner.Tests/obj/
+Planner.Tests/bin/

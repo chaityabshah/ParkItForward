@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Classes";
+}
+
+@Html.Partial("_JavaScript")
+
+@model Planner.Models.DTO.ClassesForm
+
+@*For Bootstrap Datetime picker*@
+<link href="~/CSS/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript">
+
+
+
+</script>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2>New class</h2>
+            @using (Html.BeginForm("Create", "Classes", FormMethod.Post, new {@class = "form-horizontal", @id = "form"}))
+            {
+                <div class="form-group">
+                    @Html.EditorFor(model => model.Name, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Name", @type = "text"}})
+                    @Html.ValidationMessageFor(model => model.Name, string.Empty, new {@style = "color:red"})
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.Location, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Location", @type = "text"}})
+                    @Html.ValidationMessageFor(model => model.Location, string.Empty, new {@style = "color:red"})
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.Description, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Description", @type = "text"}})
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group " data-date="@DateTime.Now">
+                                <input class="form-control datetimepicker_date" size="16" type="text" value="" name="StartDate" placeholder="Start date" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group " data-date="@DateTime.Now">
+                                <input class="form-control datetimepicker_date" size="16" type="text" value="" name="EndDate" placeholder="End date" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Add class sections</h4>
+                    <table class="table table-hover newClass">
+                        <thead>
+                        <tr>
+                            <th width="20%">Day of week</th>
+                            <th width="20%">Type</th>
+                            <th width="15%">Location</th>
+                            <th width="20%">Start time</th>
+                            <th width="20%">End time</th>
+                            <th width="5%">&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="sampleRow">
+                            <td>
+                                <select name="day" class="form-control">
+                                    <option>Sunday</option>
+                                    <option>Monday</option>
+                                    <option>Tuesday</option>
+                                    <option>Wednesday</option>
+                                    <option>Thursday</option>
+                                    <option>Friday</option>
+                                    <option>Saturday</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input name="type" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <input name="location" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <div class="input-group " data-date="@DateTime.Now">
+                                    <input class="form-control datetimepicker_time form_time" size="16" type="text" value="" name="starttime" placeholder="Start time" readonly>
+                                    <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>-->
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group " data-date="@DateTime.Now">
+                                    <input class="form-control datetimepicker_time form_time" size="16" type="text" value="" name="endtime" placeholder="End time" readonly>
+                                    <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>-->
+                                </div>
+                            </td>
+                            <td>
+                                <a class="glyphicon glyphicon-remove btn btn-danger removeSection" style="margin-top: 2px;"></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <input type="hidden" name="offset" id="offset" value=""/>
+                <input type="hidden" name="Sections">
+                <a id="addRow" class="btn btn-block btn-success">Add new section</a>
+                <button type="submit" id="formSubmit" class="btn btn-block btn-primary">Submit</button>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

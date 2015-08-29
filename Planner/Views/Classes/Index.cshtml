@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Classes";
+}
+@model IEnumerable<Planner.Models.Database.Class>
+
+@Html.Partial("_JavaScript")
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Add class</h3>
+        <p>Click on the link below to add a class to your planner</p>
+        <p>A class has a name, location, dates, description, various sections that belong to that class.</p>
+        <p>For example:</p>
+        <ul>
+            <li><b>Class:</b> Math 1501</li>
+            <li><b>Location:</b> College of Sciences</li>
+            <li><b>Description:</b> Taught by Professor Jay, TA office hours: 4pm-5pm every Tuesday</li>
+            <li><b>Start date:</b> Tuesday, August 1st, 2015</li>
+            <li><b>End date:</b> Thursday, December 2nd, 2015</li>
+            <li>
+                <b>Sections:</b>
+                <ul>
+                    <li><b>Lecture</b> every Tuesday from 10am to 11am</li>
+                    <li><b>Quiz</b> period every Thursday from 1pm to 2pm</li>
+                </ul>
+            </li>
+        </ul>
+        <p>Cool? Cool. Add a class below and see it reflected here on this page and on your main calendar as well.</p>
+        @Html.ActionLink("Add class...", "Add", "Classes", new {}, new {@class = "btn btn-success btn-block"})
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 class">
+            @Html.Partial("_Details", item)
+            <div class="row text-center">
+                @Html.ActionLink("Edit", "Edit", "Classes", new {id = item.Id}, new {@class = "btn btn-primary"}) |
+                @Html.ActionLink("Details", "Details", "Classes", new {id = item.Id}, new {@class = "btn btn-info"}) |
+                @Html.ActionLink("Delete", "Remove", "Classes", new {id = item.Id}, new {@class = "btn btn-danger"})
+            </div>
+        </div>
+    }
+</div>

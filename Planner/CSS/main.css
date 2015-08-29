@@ -1,0 +1,53 @@
+﻿#mainContainer { opacity: 0.0 }
+
+.bodyContainer { opacity: 0.0; }
+
+div#bottomBar:hover { opacity: 0.5; }
+
+#bottomBar { z-index: 100; }
+
+.navbarSpacing { height: 100px; }
+
+div.class:hover { background-color: #dbdbdb; }
+
+div.class {
+    border-radius: 10px;
+    padding-bottom: 10px;
+}
+
+.sampleRow { display: none; }
+
+#mainJumbotron {
+    background-image: url('http://pramodk.net/images/interstellar.jpg');
+    color: white;
+}
+
+.task_overdue { background-color: lightcoral; }
+
+#tasks_highlight {
+    height: 150px;
+    overflow: auto;
+}
+
+.header_container_inline { margin-bottom: 1em; }
+
+.header_container_inline h3 { display: inline; }
+
+.noScroll { overflow: hidden; }
+
+body {
+    padding-bottom: 70px;
+    padding-top: 70px;
+}
+
+.header_inline { display: inline; }
+
+header { margin-bottom: 20px; }
+
+.link_color_inherit { color: inherit; }
+
+.link_color_inherit:hover { color: lightseagreen; }
+
+#eventTable td, #taskTable td { overflow: hidden; }
+
+#index_private_user_mainContainer { max-height: 500px; }

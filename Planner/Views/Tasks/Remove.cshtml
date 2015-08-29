@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Delete task";
+}
+@model Planner.Models.Database.Task
+
+<header>
+    <h2>@ViewBag.Title</h2>
+</header>
+
+<br/>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        @Html.Partial("_Details", Model)
+
+        @using (Html.BeginForm("Delete", "Tasks", FormMethod.Post, new {@class = "form-horizontal"}))
+        {
+            <input type="hidden" name="id" value="@Model.Id"/>
+            <input type="hidden" name="name" value="@Model.Name"/>
+            <button type="submit" class="btn btn-danger btn-block btn-sm">Confirm delete</button>
+        }
+    </div>
+</div>

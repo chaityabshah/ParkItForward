@@ -1,0 +1,13 @@
+﻿<dl class="">
+    <dt>Title</dt>
+    <dd>@Model.Name</dd>
+
+    <dt>Description</dt>
+    <dd>@MvcHtmlString.Create(Model.Description.Replace("\n", "<br />"))</dd> @* Or Enviornment.NewLine *@
+
+    <dt>Start/due date</dt>
+    <dd class="task_datetime_readable">@Model.Startdate</dd>
+
+    <dt>End date</dt>
+    <dd class="task_datetime_readable">@Model.Enddate</dd>
+</dl>

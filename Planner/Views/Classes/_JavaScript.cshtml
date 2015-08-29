@@ -1,0 +1,56 @@
+﻿@*Set offset for "Add" and "Edit" forms*@
+<script type="text/javascript">
+    @*Set client offset*@
+    $(document).ready(function() {
+        var d = new Date();
+        var n = d.getTimezoneOffset() * (-1);
+        $('#offset').val(n);
+    });
+</script>
+
+@*Add new Class Sections rows AND convert sections to JSON string and set value for input*@
+<script type="text/javascript">
+    $(document).ready(function() {
+        @*Add new Class Section rows*@
+        var sampleRow = "<tr id='sectionRow'>" + $(".sampleRow").html() + "</tr>";
+        if ($("#sectionRow").length == 0) {
+            $('.newClass tr:last').after(sampleRow);
+        }
+        $("#addRow").click(function() {
+            $('.newClass tr:last').after(sampleRow);
+        });
+
+        @*Create JSON string with all Class Sections*@
+        $("#formSubmit").click(function(event) {
+            event.preventDefault();
+            var $trs = $("tr#sectionRow");
+            var products = [];
+            $.each($trs, function(i, $tr) {
+                products.push({
+                    "Day": $('select[name="day"]', $tr).val(),
+                    "Type": $('input[name="type"]', $tr).val(),
+                    "Location": $('input[name="location"]', $tr).val(),
+                    "Start": $('input[name="starttime"]', $tr).val(),
+                    "End": $('input[name="endtime"]', $tr).val()
+                });
+                $("input[name='Sections']").val(JSON.stringify(products).replace(/"/g, "'"));
+                $('form').unbind('submit').submit();
+            });
+            //alert(JSON.stringify(products));
+        });
+    });
+</script>
+
+@*On "X"-button click, remove Section*@
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("a.removeSection").click(function() {
+            $(this).parent().parent().remove();
+        });
+        $("#addRow").click(function() {
+            $("a.removeSection").click(function() {
+                $(this).parent().parent().remove();
+            });
+        });
+    });
+</script>

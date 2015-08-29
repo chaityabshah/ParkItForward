@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "Tasks";
+    var ajaxUrl = "'../../Tasks/Ajax'";
+}
+@model IEnumerable<Planner.Models.Database.Task>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#taskTable").tablesorter({
+            usNumberFormat: false,
+            sortReset: true,
+            sortRestart: true
+        });
+    });
+</script>
+
+<header>
+    <h2 class="header_inline"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;@ViewBag.Title</h2>
+    <span class="pull-right">@Html.ActionLink("Add task...", "Add", "Tasks", new {}, new {@class = "btn btn-primary btn-md"})</span>
+</header>
+
+
+<div class="row">
+    <div class="col-md-12">
+
+        @switch ((string) Session["taskAction"])
+        {
+            case "created":
+                <text>
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <strong>Success!</strong> Your task was created.
+                    </div>
+                </text>
+                Session["taskAction"] = null;
+                break;
+            case "updated":
+                <text>
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <strong>Success!</strong> Your task was updated.
+                    </div>
+                </text>
+                Session["taskAction"] = null;
+                break;
+            case "deleted":
+                <text>
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <strong>Success!</strong> Your task was deleted.
+                    </div>
+                </text>
+                Session["taskAction"] = null;
+                break;
+            default:
+                Session["taskAction"] = null;
+                break;
+        }
+
+        <table class="tablesorter-ice table table-responsive table-hover table-condensed" id="taskTable" style="table-layout: fixed;">
+            <thead>
+            <tr>
+                <th width="7.5%" class="hidden-xs">Subject</th>
+                <th width="7.5%" class="hidden-xs hidden-sm">Type</th>
+                <th width="25%">Title</th>
+                <th width="25%" class="hidden-xs hidden-sm">Description</th>
+                <th width="10%">Due date</th>
+                <th width="10%" class="hidden-xs hidden-sm">End date</th>
+                @*<th width="10%">Status</th>*@
+                @*<th width="4%" class="hidden-xs hidden-sm"></th>*@
+                <th width="5%" class="">Detail</th>
+                <th width="5%" class="hidden-xs hidden-sm"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @{ var i = 0; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="hidden-xs">
+                        <a href="#" id="x-edit_task_subject_id_@i" data-type="text" data-pk="@item.Id" data-name="Subject">@Html.DisplayFor(_ => item.Subject)</a>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $.fn.editable.defaults.mode = 'popup';
+                                $('#x-edit_task_subject_id_@i').editable({ url: @Html.Raw(ajaxUrl), placement: "right" });
+                            });
+                        </script>
+                    </td>
+                    <td class="hidden-xs hidden-sm">
+                        <a href="#" id="x-edit_task_type_id_@i" data-type="text" data-pk="@item.Id" data-name="Subject">@Html.DisplayFor(_ => item.Type)</a>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $.fn.editable.defaults.mode = 'popup';
+                                $('#x-edit_task_type_id_@i').editable({ url: @Html.Raw(ajaxUrl), placement: "right" });
+                            });
+                        </script>
+                    </td>
+                    <td>
+                        <a href="#" id="x-edit_task_name_id_@i" data-type="text" data-pk="@item.Id" data-name="Name">@Html.DisplayFor(_ => item.Name)</a>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $.fn.editable.defaults.mode = 'inline';
+                                $('#x-edit_task_name_id_@i').editable({ url: @Html.Raw(ajaxUrl) });
+                            });
+                        </script>
+                    </td>
+                    <td class="hidden-xs hidden-sm">
+                        <a href="#" id="x-edit_task_description_id_@i" data-type="textarea" data-pk="@item.Id" data-name="Description">@MvcHtmlString.Create(string.IsNullOrEmpty(item.Description) ? "" : item.Description.Replace(Environment.NewLine, "<br />"))</a>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $.fn.editable.defaults.mode = 'inline';
+                                $('#x-edit_task_description_id_@i').editable({ url: @Html.Raw(ajaxUrl) });
+                            });
+                        </script>
+                    </td>
+
+                    @{
+                        if (!@Html.DisplayFor(_ => item.Startdate).ToString().IsEmpty())
+                        {
+                            var start = @Html.DisplayFor(_ => item.Startdate).ToString().AsDateTime().ToString("yyyy-MM-dd HH:mm:ss UTC");
+                            <td class="hidden-xs hidden-sm">
+                                <span class="task_datetime_readable">@start</span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+
+                    @{
+                        if (!@Html.DisplayFor(_ => item.Enddate).ToString().IsEmpty())
+                        {
+                            var end = @Html.DisplayFor(_ => item.Enddate).ToString().AsDateTime().ToString("yyyy-MM-dd HH:mm:ss UTC");
+                            <td>
+                                <span class="task_datetime_readable">@end</span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td> @*Make this editable too*@
+                        }
+                    }
+
+                    @*<td>
+                    @Html.DisplayFor(_ => item.Status)
+                </td>*@
+                    @*<td class="hidden-xs hidden-sm success">@Html.ActionLink("Edit", "Edit", "Tasks", new {id = item.Id}, new {@class = "btn btn-xs link_color_inherit"})</td>*@
+                    <td class="info">@Html.ActionLink("Details", "Details", "Tasks", new {id = item.Id}, new {@class = "btn btn-xs link_color_inherit"})</td>
+                    <td class="hidden-xs hidden-sm danger">@Html.ActionLink("Delete", "Remove", "Tasks", new {id = item.Id}, new {@class = "btn btn-xs link_color_inherit"})</td>
+                </tr>
+                i += 1;
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

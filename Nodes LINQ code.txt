@@ -1,0 +1,33 @@
+nodes
+id 	| parent_node_id	| name		| type
+5	| null				| GT		| school
+6	| 5					| Fall 2015	| term
+9	| 6					| CS1301	| course
+
+NodesModel:
+public class Node
+{
+	public long Id
+	public string Name
+	public string Type
+	
+	public IEnumerable<Node> ChildNodes
+}
+
+public static IEnumerable<Node> CreateTree(IEnumerable<Node> nodes, int? parentNodeId)
+{
+	var nodeTree = new List<Team>();
+	var childNodes = nodes.Where(o => o.ParentNodeId == parentNodeId).ToList();
+	
+	foreach(var childNode in childNodes)
+	{
+		var n = new Node();
+		var children = CreateTree(nodes, childNode.Id);
+		n.Name = childNode.Name;
+		n.Type = childNode.Type;
+		n.ChildNodes = children;
+		nodeTree.Add(t);
+	}
+	
+	return nodeTree;
+}

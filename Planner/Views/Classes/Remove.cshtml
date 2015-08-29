@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Classes";
+}
+@model Planner.Models.Database.Class
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 class">
+        @{
+            @Html.Partial("_Details")
+        }
+        <br/>
+        <h4>Actions:</h4>
+        <div class="row">
+            <div class="col-md-12">
+                @using (Html.BeginForm("Delete", "Classes", FormMethod.Post, new {@class = "form-horizontal", @id = "form"}))
+                {
+                    <input type="hidden" name="id" value="@Model.Id"/>
+                    <button type="submit" class="btn btn-block btn-danger">DELETE</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

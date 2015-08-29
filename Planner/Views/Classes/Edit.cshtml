@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "Classes - Edit";
+}
+@using Newtonsoft.Json
+@using Planner.Models
+@model Planner.Models.Database.Class
+
+@Html.Partial("_JavaScript")
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2>Edit class</h2>
+            @using (Html.BeginForm("Update", "Classes", FormMethod.Post, new {@class = "form-horizontal", @id = "form"}))
+            {
+                <input type="hidden" name="id" value="@Model.Id"/>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.Name, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Name", @type = "text", @value = @Html.ViewData.Model.Name}})
+                    @Html.ValidationMessageFor(model => model.Name, string.Empty, new {@style = "color:red"})
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.Location, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Location", @type = "text", @value = @Html.ViewData.Model.Location}})
+                    @Html.ValidationMessageFor(model => model.Location, string.Empty, new {@style = "color:red"})
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="Description">@Html.ViewData.Model.Description</textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group " data-date="@DateTime.Now">
+                                <input type="text" class="form-control form_date datetimepicker_date" placeholder="Start date" name="StartDate" value="@Html.ViewData.Model.Startdate" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="input-group " data-date="@DateTime.Now">
+                                <input type="text" class="form-control form_date datetimepicker_date" placeholder="End date" name="EndDate" value="@Html.ViewData.Model.Enddate" readonly>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4>Add class sections</h4>
+                    <table class="table table-hover newClass">
+                        <thead>
+                        <tr>
+                            <th width="20%">Day of week</th>
+                            <th width="15%">Type</th>
+                            <th width="20%">Location</th>
+                            <th width="20%">Start time</th>
+                            <th width="20%">End time</th>
+                            <th width="5%">&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="sampleRow">
+                            <td>
+                                <select name="day" class="form-control">
+                                    <option>Sunday</option>
+                                    <option>Monday</option>
+                                    <option>Tuesday</option>
+                                    <option>Wednesday</option>
+                                    <option>Thursday</option>
+                                    <option>Friday</option>
+                                    <option>Saturday</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input name="type" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <input name="location" type="text" class="form-control">
+                            </td>
+                            <td>
+                                <div class="input-group " data-date="@DateTime.Now">
+                                    <input class="form-control datetimepicker_time" size="16" type="text" value="" name="starttime" placeholder="Start time" readonly>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group " data-date="@DateTime.Now">
+                                    <input class="form-control datetimepicker_time" size="16" type="text" value="" name="endtime" placeholder="End time" readonly>
+                                </div>
+                            </td>
+                            <td>
+                                <a class="glyphicon glyphicon-remove btn btn-danger removeSection" style="margin-top: 2px;"></a>
+                            </td>
+                        </tr>
+                        @{
+                            var sections = JsonConvert.DeserializeObject<List<Classes.Section>>(Model.Sections);
+                            string[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                            foreach (var section in sections)
+                            {
+                                <text>
+                                    <tr id="sectionRow">
+                                        <td>
+                                            <select name="day" class="form-control">
+                                                @foreach (var day in days)
+                                                {
+                                                    if (@Html.DisplayFor(_ => section.Day).ToString() == day)
+                                                    {
+                                                        <text>
+                                                            <option selected="selected">@day</option>
+                                                        </text>
+                                                    }
+                                                    else
+                                                    {
+                                                        <text>
+                                                            <option>@day</option>
+                                                        </text>
+                                                    }
+                                                }
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input name="type" type="text" class="form-control" value="@Html.DisplayFor(_ => section.Type).ToString()">
+                                        </td>
+                                        <td>
+                                            <input name="location" type="text" class="form-control" value="@Html.DisplayFor(_ => section.Location).ToString()">
+                                        </td>
+                                        <td>
+                                            <div class="input-group" data-date="@DateTime.Now">
+                                                <input name="starttime" type="text" class="form-control form_time datetimepicker_time" value="@Html.DisplayFor(_ => section.Start).ToString() UTC" readonly/>
+                                                <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>-->
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group" data-date="@DateTime.Now">
+                                                <input name="endtime" type="text" class="form-control form_time datetimepicker_time" value="@Html.DisplayFor(_ => section.End).ToString() UTC" readonly/>
+                                                <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>-->
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a class="glyphicon glyphicon-remove btn btn-danger removeSection" style="margin-top: 2px;"></a>
+                                        </td>
+                                    </tr>
+                                </text>
+                            }
+                        }
+
+                        </tbody>
+                    </table>
+                </div>
+                <input type="hidden" name="offset" id="offset" value=""/>
+                <input type="hidden" name="Sections">
+                <a id="addRow" class="btn btn-block btn-success">Add new section</a>
+                <button type="submit" id="formSubmit" class="btn btn-block btn-primary">Submit</button>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,61 @@
+﻿@using Planner.Models
+@{
+    ViewBag.Title = "Nodes";
+    var Model = ViewBag.Nodes;
+}
+
+@helper ShowTree(IEnumerable<Nodes.Node> foos)
+{
+    <ul>
+        @foreach (var foo in foos)
+        {
+            <li>
+                @foo.Name
+                @if (foo.ChildNodes.Any())
+                {
+                    @ShowTree(foo.ChildNodes)
+                }
+            </li>
+        }
+    </ul>
+}
+
+@helper ShowTree2(IEnumerable<Nodes.Node> foos, int indents)
+{
+    foreach (var foo in foos)
+    {
+        var i = 0;
+        var htmlspaces = "--";
+
+        while (i < indents)
+        {
+            htmlspaces += "--";
+            i++;
+        }
+
+        var optionText = htmlspaces + foo.Name;
+
+
+        <text>
+            <option>@optionText</option>
+        </text>
+
+        if (foo.ChildNodes.Any())
+        {
+            indents = indents + 1;
+            @ShowTree2(foo.ChildNodes, indents)
+            ;
+        }
+    }
+}
+
+<header>
+    <h2>@ViewBag.Title</h2>
+</header>
+
+@ShowTree(Model)
+
+<select name="nodes">
+
+    @ShowTree2(Model, 0);
+</select>

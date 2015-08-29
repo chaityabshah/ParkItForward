@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Add Task";
+}
+@{ var now = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); }
+@model Planner.Models.DTO.TaskForm
+
+
+<script type="text/javascript">
+    @*Set client offset*@
+    $(document).ready(function() {
+        var d = new Date();
+        var n = d.getTimezoneOffset() * (-1);
+        document.getElementById("offset").value = n;
+    });
+</script>
+
+<header>
+    <h2><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;@ViewBag.Title</h2>
+</header>
+
+<br/>
+
+<br/>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        @using (Html.BeginForm("Create", "Tasks", FormMethod.Post, new {@class = "form-horizontal", @id = "form"}))
+        {
+            <div class="form-group">
+                @Html.EditorFor(model => model.Subject, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Subject", @type = "text"}})
+                @Html.ValidationMessageFor(model => model.Subject, string.Empty, new {@style = "color:red"})
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Type, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Type", @type = "text"}})
+                @Html.ValidationMessageFor(model => model.Type, string.Empty, new {@style = "color:red"})
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Name, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Name", @type = "text"}})
+                @Html.ValidationMessageFor(model => model.Name, string.Empty, new {@style = "color:red"})
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Description, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Description", @type = "text"}})
+            </div>
+            <div class="form-group">
+                <div class="input-group date" data-date="@now" data-date-format="yyyy-mm-dd hh:ii:00">
+                    <input class="form-control datetimepicker_datetime" size="16" type="text" value="" name="startdate" placeholder="Start date" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group date" data-date="@now" data-date-format="yyyy-mm-dd hh:ii:00">
+                    <input class="form-control datetimepicker_datetime" size="16" type="text" value="" name="enddate" placeholder="End date" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+
+            <input type="hidden" name="offset" id="offset" value=""/>
+            <button type="submit" class="btn btn-block btn-primary">Submit</button>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 0,
+        pickerPosition: "bottom-left"
+    });
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

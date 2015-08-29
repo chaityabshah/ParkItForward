@@ -1,0 +1,123 @@
+﻿@{
+    ViewBag.Title = "Events";
+    var ajaxUrl = "'../../Events/Ajax'";
+}
+@model IEnumerable<Planner.Models.Database.Event>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#eventTable").tablesorter({
+            usNumberFormat: false,
+            sortReset: true,
+            sortRestart: true
+        });
+    });
+</script>
+
+<header>
+    <h2 class="header_inline"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;@ViewBag.Title</h2>
+    <span class="pull-right">@Html.ActionLink("Add event...", "Add", "Events", new {}, new {@class = "btn btn-primary btn-md"})</span>
+</header>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="tablesorter-ice table table-responsive table-hover table-condensed" id="eventTable" style="table-layout: fixed;">
+            <thead>
+            <tr>
+                <th width="20%">Title</th>
+                <th width="7.5%" class="hidden-xs">Location</th>
+                <th width="7.5%" class="hidden-xs hidden-sm">Type</th>
+                <th width="20%" class="hidden-xs hidden-sm">Description</th>
+                <th width="15%">Due date</th>
+                <th width="15%" class="hidden-xs hidden-sm">End date</th>
+                @*<th width="10%">Status</th>
+                <th width="4%" class="hidden-xs hidden-sm"></th>*@
+                <th width="5%" class="">Detail</th>
+                <th width="5%" class="hidden-xs hidden-sm"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @{ var i = 0; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="">
+                        <a href="#" id="x-edit_event_name_id_@i" data-type="text" data-pk="@item.Id" data-name="Name">@Html.DisplayFor(_ => item.Name)</a>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $.fn.editable.defaults.mode = 'inline';
+                                $('#x-edit_event_name_id_@i').editable({ url: @Html.Raw(ajaxUrl) });
+                            });
+                        </script>
+                    </td>
+                    <td class="hidden-xs">
+                        <a href="#" id="x-edit_event_location_id_@i" data-type="text" data-pk="@item.Id" data-name="Location">@Html.DisplayFor(_ => item.Location)</a>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $.fn.editable.defaults.mode = 'popup';
+                                $('#x-edit_event_location_id_@i').editable({ url: @Html.Raw(ajaxUrl), placement: "right" });
+                            });
+                        </script>
+                    </td>
+                    <td class="hidden-xs hidden-sm">
+                        @Html.DisplayFor(_ => item.Type)
+                        @*<a href="#" id="x-edit_event_type_id_@i" data-type="text" data-pk="@item.Id" data-name="Subject"></a>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $.fn.editable.defaults.mode = 'popup';
+                                $('#x-edit_event_type_id_@i').editable({ url: @Html.Raw(ajaxUrl), placement: "right" });
+                            });
+                        </script>*@
+                    </td>
+                    <td class="hidden-xs hidden-sm">
+                        <a href="#" id="x-edit_event_description_id_@i" data-type="textarea" data-pk="@item.Id" data-name="Description">@MvcHtmlString.Create(string.IsNullOrEmpty(item.Description) ? "" : item.Description.Replace(Environment.NewLine, "<br />"))</a>
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $.fn.editable.defaults.mode = 'inline';
+                                $('#x-edit_event_description_id_@i').editable({ url: @Html.Raw(ajaxUrl) });
+                            });
+                        </script>
+                    </td>
+
+                    @{
+                        if (!@Html.DisplayFor(_ => item.Startdate).ToString().IsEmpty())
+                        {
+                            var start = @Html.DisplayFor(_ => item.Startdate).ToString().AsDateTime().ToString("yyyy-MM-dd HH:mm:ss UTC");
+                            <td>
+                                <span class="event_datetime_readable">@start</span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+
+                    @{
+                        if (!@Html.DisplayFor(_ => item.Enddate).ToString().IsEmpty())
+                        {
+                            var end = @Html.DisplayFor(_ => item.Enddate).ToString().AsDateTime().ToString("yyyy-MM-dd HH:mm:ss UTC");
+                            <td class="hidden-xs hidden-sm">
+                                <span class="event_datetime_readable">@end</span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="hidden-xs hidden-sm"></td> @*Make this editable too*@
+                        }
+                    }
+
+                    @*<td>
+                    @Html.DisplayFor(_ => item.Status)
+                </td>*@
+                    @*<td class="hidden-xs hidden-sm success">@Html.ActionLink("Edit", "Edit", "Events", new {id = item.Id}, new {@class = "btn btn-xs link_color_inherit"})</td>*@
+                    <td class="info">@Html.ActionLink("Details", "Details", "Events", new {id = item.Id}, new {@class = "btn btn-xs link_color_inherit"})</td>
+                    <td class="hidden-xs hidden-sm danger">@Html.ActionLink("Delete", "Remove", "Events", new {id = item.Id}, new {@class = "btn btn-xs link_color_inherit"})</td>
+                </tr>
+                i += 1;
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

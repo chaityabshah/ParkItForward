@@ -1,0 +1,188 @@
+﻿@using Newtonsoft.Json
+@using Planner.Models
+@{
+    ViewBag.Title = "Home";
+}
+@{
+    var userId = (long) Session["userId"];
+    var tasks = Tasks.GetAll(userId);
+    string taskClass;
+    var classes = Classes.GetAll(userId);
+
+    var classesEvents = @Html.Raw(Classes.GetEvents(userId));
+    var tasksEvents = Html.Raw(Tasks.GetEvents(userId));
+}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#taskTable").tablesorter({
+            sortList: [[1, 0]],
+            usNumberFormat: false,
+            sortReset: true,
+            sortRestart: true
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() { // document ready
+        var now = new Date();
+
+        var width = $("#calendar_container").width();
+        var height = $(window).height() - $("#calendar").offset().top - 52 - $(".navbarSpacing").height();
+
+        var aspRatio = width / height;
+
+        var classesArray = @classesEvents;
+        for (var i = 0; i < classesArray.length; i++) {
+            classesArray[i]["start"] = moment(classesArray[i]["start"] + "Z");
+            classesArray[i]["end"] = moment(classesArray[i]["end"] + "Z");
+        }
+
+        var tasksArray = @tasksEvents;
+        for (var i = 0; i < tasksArray.length; i++) {
+            tasksArray[i]["start"] = moment(tasksArray[i]["start"] + "Z");
+            tasksArray[i]["end"] = moment(tasksArray[i]["end"] + "Z");
+        }
+
+        $('#calendar').fullCalendar({
+            aspectRatio: aspRatio,
+            handleWindowResize: false,
+            eventDurationEditable: false,
+            theme: false,
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultView: "agendaWeek",
+            defaultDate: now,
+            editable: true,
+            eventLimit: true,
+            businessHours: {
+                start: '08:00',
+                end: '18:00',
+                dow: [1, 2, 3, 4, 5]
+            },
+            eventSources: [
+                {
+                    events: tasksArray,
+                    editable: false,
+                    color: 'blue',
+                    textColor: 'white',
+                    className: "cal-tasks"
+                },
+                {
+                    events: classesArray,
+                    editable: false,
+                    color: 'red', // an option!
+                    textColor: 'black', // an option!
+                    className: "cal-classes"
+                }
+            ]
+        });
+
+    });
+
+</script>
+
+<header>
+    <h2>
+        <i class="glyphicon glyphicon-home"></i>&nbsp;Welcome home
+    </h2>
+</header>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="row header_container_inline">
+            <h3>Tasks highlight</h3>@Html.ActionLink("See all tasks", "Index", "Tasks", new {}, new {@class = "btn btn-primary btn-sm pull-right"})
+        </div>
+        <div class="row" id="tasks_highlight">
+            <table class="tablesorter-ice table table-hover table-condensed" id="taskTable">
+                <thead>
+                <tr>
+                    <th width="45%">Task</th>
+                    <th width="35%">Due date</th>
+                    <th width="20%">Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in tasks)
+                {
+                    if (item.Startdate < DateTime.UtcNow)
+                    {
+                        taskClass = "task_overdue";
+                    }
+                    else
+                    {
+                        taskClass = "";
+                    }
+                    <tr class="@taskClass">
+                        <td>
+                            @Html.DisplayFor(_ => item.Name)
+                        </td>
+                        <td>
+                            <span class="task_datetime_readable">@Html.DisplayFor(_ => item.Startdate) UTC</span>
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", "Tasks", new {id = item.Id}, new {@class = "btn btn-info btn-sm"})
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <div class="row header_container_inline">
+            <h3 class="header_inline">Classes highlight</h3>@Html.ActionLink("See all classes", "Index", "Classes", new {}, new {@class = "btn btn-primary btn-sm pull-right"})
+        </div>
+        <div class="row">
+            <table>
+                <thead>
+                <tr>
+                    <th width="40%">Name</th>
+                    <th width="20%">Location</th>
+                    <th width="20%">Start time</th>
+                    <th width="20%">Details</th>
+                </tr>
+                </thead>
+                <tbody>
+
+
+                @foreach (var item in classes)
+                {
+                    var sections = JsonConvert.DeserializeObject<List<Classes.Section>>(item.Sections);
+                    foreach (var section in sections)
+                    {
+                        var title = item.Name + ": " + section.Type;
+                        var location = item.Location;
+                        var start = section.Start;
+                        var id = item.Id;
+                        <tr>
+                            <td>@title</td>
+                            <td>@location</td>
+                            <td>
+                                <span class="task_datetime_readable">@start</span></td>
+                            <td>@Html.ActionLink("Details", "Details", "Classes", new {id = item.Id}, new {@class = "btn btn-info btn-sm"})</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12" id="calendar_container">
+        <div class="header_container_inline">
+            <h3>Calendar highlight</h3>
+        </div>
+        <div id="calendar"></div>
+    </div>
+    @*<div class="">
+                    <h4>Hi <b>@Session["EmailAddress"]</b> this is your homepage</h4>
+                    <h4>See your tasks @Html.ActionLink("here", "Index", "Tasks", new { }, new { @class = "btn btn-primary btn-xs" }).</h4>
+                    <h4>See your calendar @Html.ActionLink("here", "Calendar", "Events", new { }, new { @class = "btn btn-primary btn-xs" }).</h4>
+                </div>*@
+</div>

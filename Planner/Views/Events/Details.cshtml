@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Event details";
+}
+@model Planner.Models.Database.Event
+
+<header>
+    <h2>@ViewBag.Title</h2>
+</header>
+
+<br/>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        @Html.Partial("_Details", Model)
+        @Html.ActionLink("Edit", "Edit", "Events", new {id = @Model.Id}, new {@class = "btn btn-primary btn-sm"})
+        @Html.ActionLink("Delete", "Remove", "Events", new {id = @Model.Id}, new {@class = "btn btn-danger btn-sm"})
+    </div>
+</div>

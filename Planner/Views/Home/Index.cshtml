@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+@if (ViewBag.AuthFail != null)
+{
+    <h1>Login failed</h1>
+}
+
+@if (Session["UserId"] != null)
+{
+    @Html.Partial("_Index_Private_User")
+}
+else
+{
+    @Html.Partial("_Index_Public")
+}

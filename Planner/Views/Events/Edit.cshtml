@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Edit Event";
+}
+@model Planner.Models.Database.Event
+
+@{
+
+    var startdate = Model.Startdate.ToString().AsDateTime().ToString("yyyy-MM-dd HH:mm:ss UTC");
+
+    var enddate = "";
+    if (!Model.Enddate.ToString().IsEmpty())
+    {
+        enddate = Model.Enddate.ToString().AsDateTime().ToString("yyyy-MM-dd HH:mm:ss UTC");
+    }
+    else
+    {
+        enddate = startdate;
+    }
+}
+
+<script type="text/javascript">
+    @*Set client offset*@
+    $(document).ready(function() {
+        var d = new Date();
+        var n = d.getTimezoneOffset() * (-1);
+        document.getElementById("offset").value = n;
+    });
+</script>
+
+<header>
+    <h2><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;@ViewBag.Title</h2>
+</header>
+
+<br/>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        @using (Html.BeginForm("Update", "Events", FormMethod.Post, new {@class = "form-horizontal", @id = "form"}))
+        {
+            <div class="form-group">
+                @Html.EditorFor(model => model.Name, string.Empty, new {htmlAttributes = new {@value = Model.Name, @class = "form-control", @placeholder = "Name", @type = "text"}})
+                @Html.ValidationMessageFor(model => model.Name, string.Empty, new {@style = "color:red"})
+            </div>
+            <div class="form-group">
+                <select name="type" class="form-control">
+                    @{ string[] types = {"All day", "Continuous"}; }
+                    @foreach (var type in types)
+                    {
+                        if (@Html.DisplayFor(_ => _.Type).ToString() == type)
+                        {
+                            <text>
+                                <option selected="selected">@type</option>
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                                <option>@type</option>
+                            </text>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Location, string.Empty, new {htmlAttributes = new {@value = Model.Location, @class = "form-control", @placeholder = "Subject", @type = "text"}})
+                @Html.ValidationMessageFor(model => model.Location, string.Empty, new {@style = "color:red"})
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" name="Description" placeholder="Description">@Model.Description</textarea>
+            </div>
+            <div class="form-group">
+                <div class="input-group date" data-date="" data-date-format="yyyy-mm-dd hh:ii:00">
+                    <input class="form-control form_datetime datetimepicker_datetime" size="16" type="text" value="@startdate" name="StartDate" placeholder="Start date" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group date" data-date="" data-date-format="yyyy-mm-dd hh:ii:00">
+                    <input class="form-control form_datetime datetimepicker_datetime" size="16" type="text" value="@enddate" name="EndDate" placeholder="End date" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="@Model.Id"/>
+            <input type="hidden" name="offset" id="offset" value=""/>
+            <button type="submit" class="btn btn-block btn-primary">Submit</button>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

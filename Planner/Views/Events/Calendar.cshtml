@@ -1,0 +1,173 @@
+﻿@using Planner.Models
+@{
+    ViewBag.Title = "Calendar";
+}
+@{
+    var userId = (long) Session["userId"];
+    var classEvents = Html.Raw(Classes.GetEvents(userId));
+    var taskEvents = Html.Raw(Tasks.GetEvents(userId));
+    var eventEvents = Html.Raw(Events.GetEvents(userId));
+}
+
+<script type="text/javascript">
+    var fullCal = function() { // document ready
+        var now = new Date();
+
+        var width = $("#mainContainer").width();
+        var innerHeight = $(window).height() - $("#navbar").height() - $("#bottomBar").height() - 100;
+        var aspRatio = width / (innerHeight + 50);
+
+        var classesArray = @classEvents;
+
+        for (var i = 0; i < classesArray.length; i++) {
+            classesArray[i]["start"] = moment(classesArray[i]["start"]);
+            classesArray[i]["end"] = moment(classesArray[i]["end"]);
+        }
+
+        var tasksArray = @taskEvents;
+        for (var i = 0; i < tasksArray.length; i++) {
+            tasksArray[i]["start"] = moment(tasksArray[i]["start"] + "Z");
+            tasksArray[i]["end"] = moment(tasksArray[i]["end"] + "Z");
+        }
+
+        var eventsArray = @eventEvents;
+        for (var i = 0; i < eventsArray.length; i++) {
+            eventsArray[i]["start"] = moment(eventsArray[i]["start"] + "Z");
+            eventsArray[i]["end"] = moment(eventsArray[i]["end"] + "Z");
+        }
+
+        // alert(now);
+        $('#calendar').fullCalendar({
+            aspectRatio: aspRatio,
+            handleWindowResize: false,
+            eventDurationEditable: false,
+            defaultTimedEventDuration: '00:30:00',
+            theme: false,
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay'
+            },
+            defaultDate: now,
+            defaultView: "agendaWeek",
+            editable: true,
+            eventLimit: true,
+            allDayDefault: false,
+            businessHours: {
+                start: '08:00', // a start time (10am in this example)
+                end: '18:00', // an end time (6pm in this example)
+                dow: [1, 2, 3, 4, 5]
+                // days of week. an array of zero-based day of week integers (0=Sunday)
+                // (Monday-Thursday in this example)
+            },
+            eventSources: [
+                {
+                    events: tasksArray,
+                    editable: false,
+                    color: 'blue',
+                    textColor: 'white',
+                    className: "cal-tasks"
+                },
+                {
+                    events: classesArray,
+                    editable: false,
+                    color: 'red', // an option!
+                    textColor: 'black', // an option!
+                    className: "cal-classes"
+                },
+                {
+                    events: eventsArray,
+                    editable: false,
+                    color: 'gold', // an option!
+                    textColor: 'blue', // an option!
+                    className: "cal-events"
+                }
+            ]
+        });
+
+    };
+
+    $(document).ready(fullCal);
+
+    $(window).on('resize', fullCal);
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(document).ready(function() {
+            $('#taskBox').change(function() {
+                if (this.checked)
+                    $('.cal-tasks').removeClass("hideEvent");
+                else
+                    $('.cal-tasks').addClass("hideEvent");
+
+            });
+            $('#classesBox').change(function() {
+                if (this.checked)
+                    $('.cal-classes').removeClass("hideEvent");
+                else
+                    $('.cal-classes').addClass("hideEvent");
+
+            });
+            $('#eventsBox').change(function() {
+                if (this.checked)
+                    $('.cal-events').removeClass("hideEvent");
+                else
+                    $('.cal-events').addClass("hideEvent");
+
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".fc-button-group").click(function() {
+            $("#taskBox").prop('checked', true);
+            $("#classesBox").prop('checked', true);
+            $("#eventsBox").prop('checked', true);
+        });
+    });
+</script>
+
+<style type="text/css">
+    #calendar {
+        /*max-width: 900px;*/
+        margin: 0 auto;
+    }
+
+    .calSeriesSelector {
+        margin-top: -100px;
+        position: absolute;
+        z-index: 1000;
+    }
+
+    .hideEvent { display: none; }
+</style>
+
+<div class="row">
+    <div class="col-md-11">
+        <div id="calendar"></div>
+    </div>
+    <div class="col-md-1 col-sm-12">
+        <h4>Select calendars</h4>
+        <div class="checkbox">
+            <label>
+                <input name="tasks" id="taskBox" type="checkbox" checked/> Tasks
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input name="classes" id="classesBox" type="checkbox" checked/> Classes
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input name="events" id="eventsBox" type="checkbox" checked/> Events
+            </label>
+        </div>
+
+        <h4>Notes:</h4>
+        On page resize, refresh the page to automatically adjust the calendar's aspect ratio
+    </div>
+</div>

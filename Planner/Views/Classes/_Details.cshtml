@@ -1,0 +1,54 @@
+﻿@using Newtonsoft.Json
+@using Planner.Models
+@model Planner.Models.Database.Class
+@{ var item = ViewData.Model; }
+
+
+<h3>
+    <b>Class:</b> @Html.DisplayFor(_ => item.Name)</h3>
+<p>
+    <b>Location: </b>@Html.DisplayFor(_ => item.Location)</p>
+<p>
+    <b>Description: </b>@MvcHtmlString.Create(string.IsNullOrEmpty(item.Description) ? "" : item.Description.Replace(Environment.NewLine, "<br />"))</p>
+<div class="row">
+    <div class="col-md-6">
+        <b>Start date: </b><span class="class_date_readable">@Html.DisplayFor(_ => item.Startdate)</span>
+    </div>
+    <div class="col-md-6">
+        <b>End date: </b><span class="class_date_readable">@Html.DisplayFor(_ => item.Enddate)</span>
+    </div>
+</div>
+<br/>
+
+<h4 class="sections">Sections</h4>
+<table class="table table-hover newClass">
+    <thead>
+    <tr>
+        <th width="20%">Day of week</th>
+        <th width="15%">Type</th>
+        <th width="15%">Location</th>
+        <th width="25%">Start time</th>
+        <th width="25%">End time</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    @{
+        var sections = JsonConvert.DeserializeObject<List<Classes.Section>>(item.Sections);
+        foreach (var section in sections)
+        {
+            <text>
+                <tr>
+                    <td>@Html.DisplayFor(_ => section.Day)</td>
+                    <td>@Html.DisplayFor(_ => section.Type)</td>
+                    <td>@Html.DisplayFor(_ => section.Location)</td>
+                    <td>
+                        <span class="class_time_readable">@Html.DisplayFor(_ => section.Start) UTC</span></td>
+                    <td>
+                        <span class="class_time_readable">@Html.DisplayFor(_ => section.End) UTC</span></td>
+                </tr>
+            </text>
+        }
+    }
+    </tbody>
+</table>

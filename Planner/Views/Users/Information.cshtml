@@ -1,0 +1,26 @@
+﻿@model Planner.Models.Database.User
+
+<header>
+    <h2>
+        Information&nbsp;&nbsp;<i class="glyphicon glyphicon-info-sign"></i>
+    </h2>
+</header>
+
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        <table class="table table-hover table-condensed">
+            <tr>
+                <th width="30%">Email</th>
+                <td width="70%">@Model.EmailAddress</td>
+            </tr>
+            <tr>
+                <th>Account creation date</th>
+                <td>@Model.Created.ToString().AsDateTime().ToString("ddd MMM d, yyyy @ hh:mm:ss tt")</td>
+            </tr>
+            <tr>
+                <th>Account status</th>
+                <td>@Model.Status</td>
+            </tr>
+        </table>
+    </div>
+</div>

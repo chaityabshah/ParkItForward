@@ -1,0 +1,65 @@
+﻿<div class="form-group">
+    <input type="text" class="form-control" placeholder="Name" name="Name">
+</div>
+<div class="form-group">
+    <input type="text" class="form-control" placeholder="Location" name="Location">
+</div>
+<div class="form-group">
+    <textarea class="form-control" placeholder="Description" name="Description"></textarea>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Start date" name="StartDate">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="End date" name="EndDate">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <h4>Add class sections</h4>
+    <table class="table table-hover newClass">
+        <thead>
+        <tr>
+            <th width="20%">Day of week</th>
+            <th width="35%">Type</th>
+            <th width="20%">Start time</th>
+            <th width="20%">End time</th>
+            <th width="5%">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="sampleRow">
+            <td>
+                <select name="day" class="form-control">
+                    <option>Sunday</option>
+                    <option>Monday</option>
+                    <option>Tuesday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                </select>
+            </td>
+            <td>
+                <input name="type" type="text" class="form-control">
+            </td>
+            <td>
+                <input name="starttime" type="text" class="form-control">
+            </td>
+            <td>
+                <input name="endtime" type="text" class="form-control">
+            </td>
+            <td>
+                <a class="glyphicon glyphicon-remove btn btn-danger removeSection" style="margin-top: 2px;"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<input type="hidden" name="offset" id="offset" value=""/>
+<input type="hidden" name="Sections">
+<a id="addRow" class="btn btn-block btn-success">Add new section</a>

@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Edit Task";
+}
+@model Planner.Models.Database.Task
+
+@{
+    var startdate = "";
+    if (!Model.Startdate.ToString().IsEmpty())
+    {
+        startdate = Model.Startdate.ToString().AsDateTime().ToString("yyyy-MM-dd HH:mm:ss UTC");
+    }
+    var enddate = "";
+    if (!Model.Enddate.ToString().IsEmpty())
+    {
+        enddate = Model.Enddate.ToString().AsDateTime().ToString("yyyy-MM-dd HH:mm:ss UTC");
+    }
+}
+
+<script type="text/javascript">
+    @*Set client offset*@
+    $(document).ready(function() {
+        var d = new Date();
+        var n = d.getTimezoneOffset() * (-1);
+        document.getElementById("offset").value = n;
+    });
+</script>
+
+<script type="text/javascript" src="~/Scripts/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+
+<link href="~/CSS/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+<header>
+    <h2><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;@ViewBag.Title</h2>
+</header>
+
+<br/>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        @using (Html.BeginForm("Update", "Tasks", FormMethod.Post, new {@class = "form-horizontal"}))
+        {
+            <input type="hidden" name="id" value="@Model.Id"/>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Subject, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Subject", @type = "text", @value = Model.Subject}})
+                @Html.ValidationMessageFor(model => model.Subject, string.Empty, new {@style = "color:red"})
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Type, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Type", @type = "text", @value = Model.Type}})
+                @Html.ValidationMessageFor(model => model.Type, string.Empty, new {@style = "color:red"})
+            </div>
+            <div class="form-group">
+                @Html.EditorFor(model => model.Name, string.Empty, new {htmlAttributes = new {@class = "form-control", @placeholder = "Name", @type = "text", @value = Model.Name}})
+                @Html.ValidationMessageFor(model => model.Name, string.Empty, new {@style = "color:red"})
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" name="Description" placeholder="Description">@Model.Description</textarea>
+            </div>
+            <div class="form-group">
+                <div class="input-group" data-date="@startdate" data-date-format="yyyy-mm-dd hh:ii:00">
+                    <input class="form-control form_datetime datetimepicker_datetime" id="startdate" size="16" type="text" value="@startdate" name="startdate" placeholder="Startdate" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group" data-date="@enddate" data-date-format="yyyy-mm-dd hh:ii:00">
+                    <input class="form-control form_datetime datetimepicker_datetime" id="enddate" size="16" type="text" value="" name="enddate" placeholder="Enddate" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                </div>
+            </div>
+            <input type="hidden" name="offset" id="offset" value=""/>
+            <button type="submit" class="btn btn-block btn-primary">Submit</button>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

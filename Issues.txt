@@ -1,0 +1,158 @@
+2DO for PLNR.io
+	Domain: 
+		- choose domain service
+			- Google Domains
+			- GoDaddy
+			- 
+	Logic:
+		- intuitive actionable prompts
+			- set this planner apart by specifying how we can help students be proactive instead of reactive
+			? analytics
+	Site changes:
+		Site-wide:
+			- mobile friendly
+				- based on testing, add "col-sm-x" to ALL divs
+			- bootstrap theme
+				- explore ALL available themes
+			- TO ADD:
+				- help/documentation
+					- markdown input -> html
+				- breadcrumbs
+			- Body container, fade THIS in AFTER JS actions to keep header and footer constant
+				<div class="planner-container">
+					@RenderBody()
+				</div>
+			- Prompt when user not logged in
+			- ELMAH
+			- Error messages
+		/
+			- main graphic
+				- more relevant picture in the jumbotron
+				? slideshow featuring different elements of the site
+			- body
+				- features overview contains snapshots from the web app
+					- image shadows to give it a 3D effect
+				- features divided into three categories
+					- intuitive actionable overview
+					- tasks and classes
+					- the calendar
+		/Home/Register
+			- better UI
+			- color to the "Register" button
+			- ON redirect to Index, different implementation of this (the previous code):
+@if (Session["RegisterMessage"] != null)
+{
+    Session["RegisterMessage"] = null;
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+        <strong>Success!</strong> Your account was successfully created! Log in above.
+    </div>
+}
+		/Home/Features
+			- based on features overview from /
+			- more information/words
+			- specify payment (free! For now)
+		/Home/About
+			- list all technologies used
+				- be comprehensive, link to Github and project websites for ALL used technologies
+			- link to LinkedIn/websites of project authors
+		
+		/ [Authorize(role = "user")]
+		Model: Task
+			- add "notes" for thinks like links to documents or how to approach the problem
+		/Tasks/Index
+			- place "Add task" button on same line as "/ Tasks"
+			- Tasks table:
+				- LINQ: sort by startdate, limit to 50
+				- allow for pagination -> controller: 
+					/Tasks/Index?
+					subject='Math&nbsp;1501'
+					type='Exam'
+					sortBy='startdate'
+					limit=50
+					from=51
+					to=100
+					startdate=''
+					enddate=''
+				- allow for showing 50, 100, 200, all
+				- add "Completion" slider in Edit page (max=100%, or "0-10")
+				- add "Complete" button in green to set the completion to max -> db: status = "COMPLETE"
+				- "See all" option with ALL tasks for user
+		/Tasks/Add
+			- Subject = dropdown of all ACTIVE classes
+			- Type = dropdown of all ACTIVE tasks
+			- jQuery validation from TaskForm Model
+		/Tasks/Edit/#
+			include(/Tasks/Add)
+			- change input styling (to yellow or orange) if the input value is changed from initial
+		/Tasks/Details/#
+			- create cool looking "box" UI for data
+			- render subject
+			- render type
+			- add "Complete" to operations at bottom
+			- if(no enddate) render "not set"
+		/Tasks/Delete/#
+			include(/Tasks/Details/#)
+		
+		/Events Model:		DB:
+			- Id			bigint
+			- UserId		bigint
+			- Title			nvarchar(64)
+			- Location		nvarchar(64)
+			- Description	text
+			- Starttime		datetime2(7)
+			- Endtime		datetime2(7)
+			- Type			nvarchar(16) [enum(Holiday, Special)]
+			- Status		nvarchar(64)
+			- Created		datetime2(7)
+			- Updated		datetime2(7)
+		/Events/Index
+			- List all events
+			- inherit some sorting/limiting/pagination from /Tasks/Index/
+			- show past week of events marked in green and all future events
+		/Events/Add
+			- EventsForm (must be AllDay events):
+				- Title
+				- Location
+				- Description
+				- Starttime
+				- Endtime
+				- Type
+				- SUBMIT
+		/Events/Details/#
+			- inherit from Tasks/Delete/#
+		/Events/Detele
+		
+		/Classes/
+			- Exceptions
+			- NEW structure:
+				- NODES:
+					- school
+						- year
+							- term
+								- course
+									- sections/classes
+		/Classes/Add + Edit
+			- place location into sections							 rows
+			
+			
+		/Events/Calendar --> NEW CONTROLLER: "CalendarController" /Calendar/Index:
+			- FullCalendar themes
+			- styling for header:
+				- smaller Date in center
+				- less padding after header row
+			- correct active links to classes
+			? on page resize, force re-render of calendar?
+			- mobile friendly
+		
+		/Settings
+			- themes:
+				- main color:	color picker
+				- accent color:	color picker
+			- change email, password
+		/Settings/Tasks
+			- importance ranking for each subject and type
+
+		/Docs
+			- Provide information about site
