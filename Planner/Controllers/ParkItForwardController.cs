@@ -182,7 +182,7 @@ namespace Planner.Controllers
             var clientId = "l7xxb1ace3b4c4454f1a9ec7a30b69c850f6"; // change it to your client id
             var clientSecret = "5d41035a5619413d8cebe6eb1c4bd9eb"; // change it to your client secret
 
-            var auth = clientId+":" + clientSecret;
+            var auth = clientId + ":" + clientSecret;
 
             using (var client = new HttpClient())
             {
@@ -197,10 +197,17 @@ namespace Planner.Controllers
                 {
                     return null;
                 }
-
+                
                 var result = Task.Run(async () => await response.Content.ReadAsAsync<AccessTokenReponse>()).Result;
-
-                return result?.AccessToken; // return accesstoken if not null (or else return null if result == null)
+                if (result == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return result.AccessToken;
+                }
+                //.AccessToken; // return accesstoken if not null (or else return null if result == null)
             }
         }
     }
